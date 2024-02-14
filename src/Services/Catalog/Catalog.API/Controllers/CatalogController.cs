@@ -1,9 +1,27 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Net;
+using Catalog.Application.Queries;
+using Catalog.Application.Responses;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Catalog.API
+namespace Catalog.API.Controllers;
+
+public class CatalogController : ApiController
 {
-    public class CatalogController : ControllerBase
-    {
-    }
+  private readonly IMediator _mediator;
+
+  public CatalogController(IMediator mediator)
+  {
+    _mediator = mediator;
+  }
+
+  [HttpGet]
+  [Route("[action]/{id}", Name = "GetProductById")]
+  [ProducesResponseType(typeof(ProductResponse), (int)HttpStatusCode.OK)]
+  public async Task<ActionResult<ProductResponse>> GetProductById(string id)
+  {
+    var query = new GetProductByIdQuery(id);
+    var result = await _mediator.Send(query);
+    return Ok(result);
+  }
 }
