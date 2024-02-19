@@ -10,4 +10,11 @@
     <ProjectReference Include="..\Basket.Core\Basket.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Mappers\" />
+    <Folder Include="Queries\" />
+    <Folder Include="Handlers\" />
+    <Folder Include="Commands\" />
+  </ItemGroup>
+
 </Project>
