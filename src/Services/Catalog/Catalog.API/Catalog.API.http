@@ -1,4 +1,4 @@
-@Catalog.API_HostAddress = http://localhost:5176
+@Catalog.API_HostAddress = http://localhost:5027
 
 GET {{Catalog.API_HostAddress}}/swagger/
 Accept: application/json

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Npgsql;
 
 namespace Discount.Infrastructure.Extensions;
+
 public static class DbExtension
 {
     public static IHost MigrateDatabase<TContext>(this IHost host)
@@ -45,7 +46,7 @@ public static class DbExtension
                                                 Description TEXT,
                                                 Amount INT)";
         cmd.ExecuteNonQuery();
-
+        
         cmd.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Adidas Quick Force Indoor Badminton Shoes', 'Shoe Discount', 500);";
         cmd.ExecuteNonQuery();
 
