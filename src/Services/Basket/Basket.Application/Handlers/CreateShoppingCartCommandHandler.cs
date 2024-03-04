@@ -1,4 +1,5 @@
 ﻿using Basket.Application.Commands;
+using Basket.Application.GrpcService; 
 using Basket.Application.Mappers;
 using Basket.Application.Responses;
 using Basket.Core.Entities;
@@ -9,22 +10,31 @@ namespace Basket.Application.Handlers;
 
 public class CreateShoppingCartCommandHandler : IRequestHandler<CreateShoppingCartCommand, ShoppingCartResponse>
 {
-    private readonly IBasketRepository _basketRepository;
+  private readonly IBasketRepository _basketRepository;
+  private readonly DiscountGrpcService _discountGrpcService;
 
-    public CreateShoppingCartCommandHandler(IBasketRepository basketRepository)
+
+  public CreateShoppingCartCommandHandler(IBasketRepository basketRepository, DiscountGrpcService discountGrpcService)
+  {
+    _basketRepository = basketRepository;
+    _discountGrpcService = discountGrpcService;
+  }
+
+  public async Task<ShoppingCartResponse> Handle(CreateShoppingCartCommand request, CancellationToken cancellationToken)
+  {
+    foreach (var item in request.Items)
     {
-        _basketRepository = basketRepository;
+      var coupon = await _discountGrpcService.GetDiscount(item.ProductName);
+      item.Price -= coupon.Amount;
     }
 
-    public async Task<ShoppingCartResponse> Handle(CreateShoppingCartCommand request, CancellationToken cancellationToken)
+    var shoppingCart = await _basketRepository.UpdateBasket(new ShoppingCart
     {
-        var shoppingCart = await _basketRepository.UpdateBasket(new ShoppingCart
-        {
-            UserName = request.UserName,
-            Items = request.Items
-        });
+      UserName = request.UserName,
+      Items = request.Items
+    });
 
-        var shoppingCartResponse = BasketMapper.Mapper.Map<ShoppingCartResponse>(shoppingCart);
-        return shoppingCartResponse;
-    }
+    var shoppingCartResponse = BasketMapper.Mapper.Map<ShoppingCartResponse>(shoppingCart);
+    return shoppingCartResponse;
+  }
 }
