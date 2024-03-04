@@ -19,9 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
     <Folder Include="Exensions\" />
-    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>
