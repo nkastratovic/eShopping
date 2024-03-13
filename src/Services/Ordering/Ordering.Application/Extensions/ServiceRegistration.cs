@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Ordering.Application.Behaviour;
 using System.Reflection;
 
-namespace Ordering.Application.Exstensions
+namespace Ordering.Application.Extensions
 {
     public static class ServiceRegistration
     {
