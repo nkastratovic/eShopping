@@ -4,7 +4,7 @@ using MediatR;
 namespace Ordering.Application.Behaviour;
 
 // This will collect all fluent validators and run before handler
-public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+public class ValidationBehaviour<TRequest, TResponse>: IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     // IValidator, will return all the classes which implement this under _validators
     private readonly IEnumerable<IValidator<TRequest>> _validators;

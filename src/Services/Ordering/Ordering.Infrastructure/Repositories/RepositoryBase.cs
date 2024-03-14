@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using Ordering.Core.Common;
 using Ordering.Core.Repositories;
 using Ordering.Infrastructure.Data;
-using System.Linq.Expressions;
 
 namespace Ordering.Infrastructure.Repositories;
 
@@ -14,16 +14,16 @@ public class RepositoryBase<T> : IAsyncRepository<T> where T : EntityBase
     {
         _dbContext = dbContext;
     }
-
     public async Task<IReadOnlyList<T>> GetAllAsync()
     {
         return await _dbContext.Set<T>().ToListAsync();
     }
 
-    public Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
+    public async Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Set<T>().Where(predicate).ToListAsync();
     }
+
     public async Task<T> GetByIdAsync(int id)
     {
         return await _dbContext.Set<T>().FindAsync(id);
@@ -47,11 +47,4 @@ public class RepositoryBase<T> : IAsyncRepository<T> where T : EntityBase
         _dbContext.Set<T>().Remove(entity);
         await _dbContext.SaveChangesAsync();
     }
-
-
-
-
-
-
-
 }
