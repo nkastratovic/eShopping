@@ -11,4 +11,8 @@
     <PackageReference Include="Ocelot.Cache.CacheManager" Version="23.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
 </Project>
