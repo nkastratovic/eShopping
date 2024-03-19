@@ -28,9 +28,9 @@ public class Startup
 
         app.UseEndpoints(endpoints =>
         {
-            endpoints.MapGet("/", async context =>
-            {
-                await context.Response.WriteAsync("Hello Ocelot");
+            endpoints.MapGet("/", async context => 
+            { 
+                await context.Response.WriteAsync("Hello Ocelot"); 
             });
         });
         await app.UseOcelot();
